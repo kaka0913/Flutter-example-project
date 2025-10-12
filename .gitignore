@@ -1,0 +1,86 @@
+# Miscellaneous
+#================================================================
+# 様々な自動生成ファイルやログファイル
+*.class
+*.log
+*.pyc
+*.swp
+*.DS_Store
+*.atom/
+*.buildlog/
+*.history
+*.svn/
+migrate_working_dir/
+
+
+# Sensitive information
+#================================================================
+# APIキーや証明書など、リポジトリに含めるべきでない機密情報
+# Androidの署名キー
+*.keystore
+# 環境変数ファイル
+*.env
+
+
+# IDEs
+#================================================================
+# IDE（統合開発環境）関連の設定ファイル
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code
+# ワークスペースの設定をチームで共有したい場合は、この行のコメントを解除してください
+#.vscode/
+
+
+# Flutter / Dart
+#================================================================
+# FlutterとDartに関連する自動生成ファイルやキャッシュ
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+.pub-cache/
+
+# ビルド成果物
+build/
+
+# シンボルファイルとオブファスケーションマップ（難読化マップ）
+app.*.symbols
+app.*.map.json
+
+
+# Platform-specific build files
+#================================================================
+# 各プラットフォームのビルド時に生成されるファイル
+
+# Android
+# Android Studioが配置するビルド成果物
+/android/app/debug
+/android/app/profile
+/android/app/release
+# Android SDKのローカルパスが記述されるファイル
+/android/local.properties
+
+# iOS
+# iOSのビルド成果物
+/ios/build/
+# CocoaPods関連
+/ios/Pods/
+/ios/Flutter/ephemeral/
+/ios/Flutter/.last_build_id
+*.xcworkspace/contents.xcworkspacedata
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/
+*.xcodeproj/xcuserdata/
+
+# FVM (Flutter Version Management)
+#================================================================
+# FVMのバージョンキャッシュ
+.fvm/
+.serena/
+.vscode/
