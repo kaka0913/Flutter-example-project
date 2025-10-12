@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:work/core/di/injection.dart';
 import 'package:work/features/pokemon/domain/entities/pokemon_list_item.dart';
 import 'package:work/features/pokemon/domain/usecases/get_pokemon_list_usecase.dart';
+import 'package:work/features/pokemon/presentation/providers/pokemon_providers.dart';
 
 part 'pokemon_list_view_model.g.dart';
 
@@ -44,8 +44,13 @@ class PokemonListViewModel extends _$PokemonListViewModel {
   static const int _pageSize = 20;
   int _currentOffset = 0;
 
+  // UseCaseをプロパティとして保持
+  late final GetPokemonListUseCase _useCase;
+
   @override
   PokemonListState build() {
+    // Providerから一度だけ取得
+    _useCase = ref.watch(getPokemonListUseCaseProvider);
     loadInitialPokemons();
     return const PokemonListState(hasMore: true);
   }
@@ -56,8 +61,7 @@ class PokemonListViewModel extends _$PokemonListViewModel {
     _currentOffset = 0;
 
     try {
-      final useCase = getIt<GetPokemonListUseCase>();
-      final pokemons = await useCase(
+      final pokemons = await _useCase(
         limit: _pageSize,
         offset: _currentOffset,
       );
@@ -83,8 +87,7 @@ class PokemonListViewModel extends _$PokemonListViewModel {
     state = state.copyWith(isLoadingMore: true);
 
     try {
-      final useCase = getIt<GetPokemonListUseCase>();
-      final newPokemons = await useCase(
+      final newPokemons = await _useCase(
         limit: _pageSize,
         offset: _currentOffset,
       );

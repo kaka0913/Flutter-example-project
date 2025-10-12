@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:work/core/di/injection.dart';
 import 'package:work/core/router/app_router.dart';
 
 void main() {
-  // 依存性注入のセットアップ
-  setupDI();
-
   runApp(
     const ProviderScope(
       child: MyApp(),

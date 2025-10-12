@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 /// Dioインスタンスを作成
 Dio createDio() {
@@ -17,7 +18,7 @@ Dio createDio() {
     LogInterceptor(
       requestBody: true,
       responseBody: true,
-      logPrint: (obj) => print(obj),
+      logPrint: (obj) => debugPrint(obj.toString()),
     ),
   );
 

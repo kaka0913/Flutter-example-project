@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:work/core/di/injection.dart';
 import 'package:work/features/pokemon/domain/entities/pokemon.dart';
 import 'package:work/features/pokemon/domain/usecases/get_pokemon_detail_usecase.dart';
+import 'package:work/features/pokemon/presentation/providers/pokemon_providers.dart';
 
 part 'pokemon_detail_view_model.g.dart';
 
@@ -33,8 +33,13 @@ class PokemonDetailState {
 /// ポケモン詳細ViewModel
 @riverpod
 class PokemonDetailViewModel extends _$PokemonDetailViewModel {
+  // UseCaseをプロパティとして保持
+  late final GetPokemonDetailUseCase _useCase;
+
   @override
   PokemonDetailState build(int pokemonId) {
+    // Providerから一度だけ取得
+    _useCase = ref.watch(getPokemonDetailUseCaseProvider);
     loadPokemon(pokemonId);
     return const PokemonDetailState(isLoading: true);
   }
@@ -44,8 +49,7 @@ class PokemonDetailViewModel extends _$PokemonDetailViewModel {
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     try {
-      final useCase = getIt<GetPokemonDetailUseCase>();
-      final pokemon = await useCase(id);
+      final pokemon = await _useCase(id);
 
       state = state.copyWith(
         pokemon: pokemon,
