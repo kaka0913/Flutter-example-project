@@ -53,6 +53,13 @@ build/
 app.*.symbols
 app.*.map.json
 
+# コード生成ファイル
+# build_runnerなどで自動生成されるファイル
+*.g.dart
+*.gr.dart
+*.config.dart
+*.mocks.dart
+
 
 # Platform-specific build files
 #================================================================
