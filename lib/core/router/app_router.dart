@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:work/features/pokemon/presentation/views/pokemon_detail_view.dart';
 import 'package:work/features/pokemon/presentation/views/pokemon_list_view.dart';
+import 'package:work/features/survey/presentation/views/survey_view.dart';
 
 /// アプリのルーター設定
 final appRouter = GoRouter(
@@ -16,6 +17,10 @@ final appRouter = GoRouter(
         final id = int.parse(state.pathParameters['id']!);
         return PokemonDetailView(pokemonId: id);
       },
+    ),
+    GoRoute(
+      path: '/survey',
+      builder: (context, state) => const SurveyView(),
     ),
   ],
 );

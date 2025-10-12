@@ -51,7 +51,7 @@ class PokemonListViewModel extends _$PokemonListViewModel {
   PokemonListState build() {
     // Providerから一度だけ取得
     _useCase = ref.watch(getPokemonListUseCaseProvider);
-    loadInitialPokemons();
+    Future.microtask(() => loadInitialPokemons());
     return const PokemonListState(hasMore: true);
   }
 

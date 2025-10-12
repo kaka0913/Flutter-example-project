@@ -40,7 +40,7 @@ class PokemonDetailViewModel extends _$PokemonDetailViewModel {
   PokemonDetailState build(int pokemonId) {
     // Providerから一度だけ取得
     _useCase = ref.watch(getPokemonDetailUseCaseProvider);
-    loadPokemon(pokemonId);
+    Future.microtask(() => loadPokemon(pokemonId));
     return const PokemonDetailState(isLoading: true);
   }
 

@@ -30,6 +30,13 @@ class PokemonListView extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('ポケモン図鑑'),
         elevation: 2,
+        actions: [
+          IconButton(
+            onPressed: () => context.push('/survey'),
+            icon: const Icon(Icons.quiz),
+            tooltip: 'ポケモン診断',
+          ),
+        ],
       ),
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
