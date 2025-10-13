@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:work/shared/auth/presentation/widgets/user_switcher.dart';
 import 'package:work/features/pokemon/presentation/view_models/pokemon_list_view_model.dart';
 
 /// ポケモン一覧画面
@@ -31,6 +32,7 @@ class PokemonListView extends HookConsumerWidget {
         title: const Text('ポケモン図鑑'),
         elevation: 2,
         actions: [
+          const UserSwitcher(),
           IconButton(
             onPressed: () => context.push('/survey'),
             icon: const Icon(Icons.quiz),

@@ -1,44 +1,62 @@
-
 ### Feature-First ＋ Clean Architecture + MVVM
 
 機能ごとの独立性を保ち、テストしやすくメンテナンス性の高いコードベースを目指します。
 
 ---
+
 ### **全体構成図**
 
 ```
 lib/
-├── core/                    # アプリの基盤となる共通機能（非UI層）
-│   ├── di/                  # 依存性注入 (Dependency Injection) の設定
-│   ├── errors/              # エラーハンドリング、Failureクラス
+├── core/                    # 技術的インフラ（ビジネスロジックなし）
 │   ├── network/             # Dioインスタンスなどのネットワーク設定
+│   │   └── dio_client.dart
+│   ├── router/              # go_routerの設定
+│   │   └── app_router.dart
 │   ├── theme/               # アプリのテーマ設定
 │   └── utils/               # 汎用的な便利ツール
 │
-├── data/                  　# データ層 (どうやってデータを取得・保存するか)
-│   ├── datasources/         # データの源泉 (API, Local DBなど)
-│   │   └── remote/          # リモートデータソース (API)
-│   │       └── api_client.dart
-│   ├── models/              # データソース固有のモデル (JSONのシリアライズ用など)
-│   └── repositories/        # Repositoryインターフェースの実装
+├── shared/                  # 共有ドメイン（ビジネスロジックあり）
+│   └── auth/                # 認証・ユーザー管理（Clean Architecture準拠）
+│       ├── domain/          # ドメイン層
+│       │   ├── entities/    # User
+│       │   ├── repositories/# UserRepository (interface)
+│       │   └── usecases/    # GetCurrentUser, SwitchUser
+│       ├── data/            # データ層
+│       │   ├── datasources/ # UserLocalDataSource (モック)
+│       │   └── repositories/# UserRepositoryImpl
+│       └── presentation/    # プレゼンテーション層
+│           ├── providers/   # Riverpodプロバイダー（DI）
+│           └── widgets/     # UserSwitcher
 │
-├── domain/                  # ドメイン層 (このアプリが何をするか)
-│   ├── entities/            # アプリの核となるビジネスオブジェクト
-│   ├── repositories/        # データ操作のインターフェース (抽象)
-│   └── usecases/            # アプリのビジネスロジック (ユースケース)
-│
-├── features/                # 機能層 (UIと、UIを制御するロジック)
-│   ├── onboarding/          # オンボーディング機能
-│   │   └── presentation/
-│   │       ├── view_model.dart   # ViewModel
-│   │       ├── view.dart         # 各画面のView
-│   │       └── widgets/     # その画面でのみ使うWidget
-│   ├── video_editor/        # 動画編集機能
-│   └── account/             # アカウント関連機能
-│
-├── shared/                  # 共有のUI層
-│   ├── providers/           # アプリ全体で共有する状態 (認証などUIを制御する状態など)
-│   └── widgets/             # 複数の機能で再利用する共通Widget (ボタン、ダイアログなど)
+├── features/                # 機能層 (Feature-First)
+│   ├── pokemon/             # ポケモン図鑑機能
+│   │   ├── domain/          # ドメイン層
+│   │   │   ├── entities/    # Pokemon, PokemonListItem
+│   │   │   ├── repositories/# RepositoryインターフェースI/F
+│   │   │   └── usecases/    # GetPokemonList, GetPokemonDetail
+│   │   ├── data/            # データ層
+│   │   │   ├── models/      # APIレスポンスモデル (json_serializable)
+│   │   │   ├── datasources/ # PokemonApiClient (Retrofit)
+│   │   │   └── repositories/# Repository実装
+│   │   └── presentation/    # プレゼンテーション層
+│   │       ├── providers/   # Riverpodプロバイダー（DI）
+│   │       ├── view_models/ # PokemonListViewModel, PokemonDetailViewModel
+│   │       └── views/       # PokemonListView, PokemonDetailView
+│   │
+│   └── survey/              # アンケート機能
+│       ├── domain/          # ドメイン層
+│       │   ├── entities/    # SurveyAnswer
+│       │   ├── repositories/# SurveyRepositoryインターフェース
+│       │   └── usecases/    # SubmitSurveyUseCase
+│       ├── data/            # データ層
+│       │   ├── models/      # SurveyAnswerModel (json_serializable)
+│       │   ├── datasources/ # Local (SharedPreferences) + Remote (Mock)
+│       │   └── repositories/# Repository実装
+│       └── presentation/    # プレゼンテーション層
+│           ├── providers/   # Riverpodプロバイダー（DI）
+│           ├── view_models/ # SurveyViewModel
+│           └── views/       # SurveyView (4ページのPageView)
 │
 └── main.dart                # アプリケーションのエントリーポイント
 ```
@@ -51,35 +69,86 @@ lib/
 
 - **役割**: アプリの各機能を配置します。「オンボーディング」「動画編集」のように、ユーザーに見える機能単位でディレクトリを分割します。
 - **特徴**: 各機能は原則として他の機能から独立しています。これにより、担当機能に集中でき、並行開発がしやすくなります。
-- **内部構成**: `presentation`ディレクトリを持ち、UIに関連する`screens` (View) と `view_models` (ViewModel) を配置します。
-    
+- **内部構成**: `presentation`ディレクトリを持ち、UI に関連する`screens` (View) と `view_models` (ViewModel) を配置します。
 
 #### **`domain` (ドメイン層)** 🧠
 
-- **役割**: **「このアプリが何をするか」** というビジネスルールを定義します。ここはプロジェクトの心臓部であり、フレームワークやUIから完全に独立した純粋なDartコードで記述します。
+- **役割**: **「このアプリが何をするか」** というビジネスルールを定義します。ここはプロジェクトの心臓部であり、フレームワークや UI から完全に独立した純粋な Dart コードで記述します。
 - **`entities`**: アプリケーションの核となるデータ構造です。（例: `User`, `VideoTemplate`）
 - **`repositories`**: データがどこから来るか（API or DB）を隠蔽するためのインターフェース（設計図）を定義します。（例: `abstract class UserRepository { ... }`）
 - **`usecases`**: 「オンボーディングの回答を送信する」といった、特定のビジネスフローを実現するクラスです。`ViewModel`からの指示を受け、`Repository`を介して処理を実行します。
-    
 
 #### **`data` (データ層)** 🔌
 
 - **役割**: **「どうやってデータを取得・保存するか」** を具体的に実装します。`domain`層で定義された`Repository`インターフェースを実装する場所です。
-- **`datasources`**: APIとの通信、ローカルデータベースへのアクセスなど、データの源泉となる処理を記述します。バックエンドとのやり取りはここが担当します。
-- **`models`**: APIのレスポンス（JSON）をDartオブジェクトに変換するためのクラスなど、データソース固有のデータ構造を定義します。
+- **`datasources`**: API との通信、ローカルデータベースへのアクセスなど、データの源泉となる処理を記述します。バックエンドとのやり取りはここが担当します。
+- **`models`**: API のレスポンス（JSON）を Dart オブジェクトに変換するためのクラスなど、データソース固有のデータ構造を定義します。
 - **`repositories`**: `domain`層の`Repository`インターフェースを実装した具象クラスを配置します。
-    
 
-#### **`shared` (共有UI層)** ♻️
+#### **`shared` (共有ドメイン層)** ♻️
 
-- **役割**: 複数の`feature`で共通して使われるUIコンポーネント（カスタムボタン、ローディングインジケーターなど）や、アプリ全体で共有したい状態（認証情報など）を管理する`Provider`を配置します。
-    
+- **役割**: 複数の`feature`で共有されるビジネスロジックを配置します。Clean Architecture の 3 層構造（domain/data/presentation）を持ちます。
+- **特徴**:
+  - Repository/UseCase パターンを使用
+  - 複数のデータソースの統合が可能
+  - テスタビリティが高い
+- **例**:
+  - **`auth/`**: 認証・ユーザー管理
+    - `domain/entities/User`: ユーザーエンティティ
+    - `domain/repositories/UserRepository`: ユーザーリポジトリインターフェース
+    - `domain/usecases/`: GetCurrentUser, SwitchUser など
+    - `data/datasources/`: ローカル/リモートデータソース
+    - `data/repositories/`: Repository 実装
+    - `presentation/providers/`: Riverpod プロバイダー（DI）
+    - `presentation/widgets/`: UserSwitcher（共通ウィジェット）
 
 #### **`core` (コア層)** ⚙️
 
-- **役割**: アプリケーション全体の基盤となる機能を配置します。特定の機能には依存しない、横断的な関心事を扱います。
-- **例**: DI（依存性注入）の設定、エラーハンドリングの仕組み、ネットワーククライアントの初期化、定数、テーマなど。
-    
+- **役割**: アプリケーション全体の技術的基盤を配置します。ビジネスロジックを持たない、横断的な技術設定を扱います。
+- **特徴**:
+  - ビジネスロジックなし
+  - 技術的な設定・ユーティリティのみ
+  - Clean Architecture の 3 層構造は不要
+- **例**:
+  - **`network/`**: Dio インスタンスなどのネットワーク設定
+  - **`router/`**: go_router のルーティング設定
+  - **`theme/`**: アプリのテーマ設定
+  - **`utils/`**: ヘルパー関数、拡張メソッド
+  - **`constants/`**: 定数定義
+
+---
+
+### **Core vs Shared の使い分け**
+
+#### `core/` に配置すべきもの（技術的インフラ）
+
+- ✅ ネットワーク設定（Dio）
+- ✅ ルーティング設定（go_router）
+- ✅ テーマ設定
+- ✅ ユーティリティ関数
+- ✅ 定数
+
+**判断基準**: ビジネスロジックを持たない技術的な設定か？
+
+#### `shared/` に配置すべきもの（共有ドメイン）
+
+- ✅ 認証・ユーザー管理
+- ✅ 決済処理
+- ✅ 通知管理
+- ✅ 複数 Feature で使われるビジネスロジック
+
+**判断基準**: Repository/UseCase が必要なビジネスロジックか？
+
+---
+
+### **共通機能の切り出し方針**
+
+- **複数の Feature で使われる機能** → `core/`に配置
+  - 例: 認証（`core/auth/`）、ネットワーク設定、テーマ
+- **Feature 固有の機能** → 各`features/`内に配置
+  - 例: ポケモン図鑑の API、アンケートのロジック
+- **UI の共通コンポーネント** → `core/`配下に widgets ディレクトリを作成
+  - 例: UserSwitcher（複数画面で使用）
 
 ---
 

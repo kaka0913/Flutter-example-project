@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:work/shared/auth/presentation/widgets/user_switcher.dart';
 import 'package:work/features/survey/presentation/view_models/survey_view_model.dart';
 
 /// アンケート画面
@@ -70,6 +71,7 @@ class SurveyView extends HookConsumerWidget {
       appBar: AppBar(
         title: Text('ポケモン診断 (${state.currentPage + 1}/4)'),
         actions: [
+          const UserSwitcher(),
           if (state.currentPage > 0)
             TextButton.icon(
               onPressed: viewModel.reset,
