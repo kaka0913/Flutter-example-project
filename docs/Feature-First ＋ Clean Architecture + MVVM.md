@@ -8,64 +8,64 @@
 
 ```
 lib/
-├── core/                    # 技術的インフラ（ビジネスロジックなし）
-│   ├── di/                  # 依存性注入（DI）の中央管理
-│   │   ├── pokemon_di.dart      # Pokemon機能のDI
-│   │   ├── survey_di.dart       # Survey機能のDI
-│   │   └── auth_di.dart         # Auth機能のDI
-│   ├── network/             # Dioインスタンスなどのネットワーク設定
+├── core/                             # 技術的インフラ（ビジネスロジックなし）
+│   ├── di/                           # 依存性注入（DI）の中央管理
+│   │   ├── pokemon_di.dart           # Pokemon機能のDI
+│   │   ├── survey_di.dart            # Survey機能のDI
+│   │   └── auth_di.dart              # Auth機能のDI
+│   ├── network/                      # Dioインスタンスなどのネットワーク設定
 │   │   └── dio_client.dart
-│   ├── router/              # go_routerの設定
+│   ├── router/                       # go_routerの設定
 │   │   └── app_router.dart
-│   ├── theme/               # アプリのテーマ設定
-│   │   ├── app_theme.dart       # Light/Darkテーマ定義
-│   │   ├── app_colors.dart      # カラーパレット
-│   │   └── app_text_styles.dart # テキストスタイル
-│   └── utils/               # 汎用的な便利ツール
-│       ├── string_extensions.dart   # String拡張メソッド
-│       ├── context_extensions.dart  # BuildContext拡張メソッド
-│       └── formatters.dart          # 日付・数値・ポケモンフォーマッター
+│   ├── theme/                        # アプリのテーマ設定
+│   │   ├── app_theme.dart            # Light/Darkテーマ定義
+│   │   ├── app_colors.dart           # カラーパレット
+│   │   └── app_text_styles.dart      # テキストスタイル
+│   └── utils/                        # 汎用的な便利ツール
+│       ├── string_extensions.dart    # String拡張メソッド
+│       ├── context_extensions.dart   # BuildContext拡張メソッド
+│       └── formatters.dart           # 日付・数値・ポケモンフォーマッター
 │
-├── shared/                  # 共有ドメイン（ビジネスロジックあり）
-│   └── auth/                # 認証・ユーザー管理（Clean Architecture準拠）
-│       ├── domain/          # ドメイン層
-│       │   ├── entities/    # User
-│       │   ├── repositories/# UserRepository (interface)
-│       │   └── usecases/    # GetCurrentUser, SwitchUser
-│       ├── data/            # データ層
-│       │   ├── datasources/ # UserLocalDataSource (モック)
-│       │   └── repositories/# UserRepositoryImpl
-│       └── presentation/    # プレゼンテーション層
-│           └── widgets/     # UserSwitcher
+├── shared/                           # 共有ドメイン（ビジネスロジックあり）
+│   └── auth/                         # 認証・ユーザー管理（Clean Architecture準拠）
+│       ├── domain/                   # ドメイン層
+│       │   ├── entities/             # User
+│       │   ├── repositories/         # UserRepository (interface)
+│       │   └── usecases/             # GetCurrentUser, SwitchUser
+│       ├── data/                     # データ層
+│       │   ├── datasources/          # UserLocalDataSource (モック)
+│       │   └── repositories/         # UserRepositoryImpl
+│       └── presentation/             # プレゼンテーション層
+│           └── widgets/              # UserSwitcher
 │
-├── features/                # 機能層 (Feature-First)
-│   ├── pokemon/             # ポケモン図鑑機能
-│   │   ├── domain/          # ドメイン層
-│   │   │   ├── entities/    # Pokemon, PokemonListItem
-│   │   │   ├── repositories/# RepositoryインターフェースI/F
-│   │   │   └── usecases/    # GetPokemonList, GetPokemonDetail
-│   │   ├── data/            # データ層
-│   │   │   ├── models/      # APIレスポンスモデル (json_serializable)
-│   │   │   ├── datasources/ # PokemonApiClient (Retrofit)
-│   │   │   └── repositories/# Repository実装
-│   │   └── presentation/    # プレゼンテーション層
-│   │       ├── view_models/ # PokemonListViewModel, PokemonDetailViewModel
-│   │       └── views/       # PokemonListView, PokemonDetailView
+├── features/                         # 機能層 (Feature-First)
+│   ├── pokemon/                      # ポケモン図鑑機能
+│   │   ├── domain/                   # ドメイン層
+│   │   │   ├── entities/             # Pokemon, PokemonListItem
+│   │   │   ├── repositories/         # RepositoryインターフェースI/F
+│   │   │   └── usecases/             # GetPokemonList, GetPokemonDetail
+│   │   ├── data/                     # データ層
+│   │   │   ├── models/               # APIレスポンスモデル (json_serializable)
+│   │   │   ├── datasources/          # PokemonApiClient (Retrofit)
+│   │   │   └── repositories/         # Repository実装
+│   │   └── presentation/             # プレゼンテーション層
+│   │       ├── view_models/          # PokemonListViewModel, PokemonDetailViewModel
+│   │       └── views/                # PokemonListView, PokemonDetailView
 │   │
-│   └── survey/              # アンケート機能
-│       ├── domain/          # ドメイン層
-│       │   ├── entities/    # SurveyAnswer
-│       │   ├── repositories/# SurveyRepositoryインターフェース
-│       │   └── usecases/    # SubmitSurveyUseCase
-│       ├── data/            # データ層
-│       │   ├── models/      # SurveyAnswerModel (json_serializable)
-│       │   ├── datasources/ # Local (SharedPreferences) + Remote (Mock)
-│       │   └── repositories/# Repository実装
-│       └── presentation/    # プレゼンテーション層
-│           ├── view_models/ # SurveyViewModel
-│           └── views/       # SurveyView (4ページのPageView)
+│   └── survey/                       # アンケート機能
+│       ├── domain/                   # ドメイン層
+│       │   ├── entities/             # SurveyAnswer
+│       │   ├── repositories/         # SurveyRepositoryインターフェース
+│       │   └── usecases/             # SubmitSurveyUseCase
+│       ├── data/                     # データ層
+│       │   ├── models/               # SurveyAnswerModel (json_serializable)
+│       │   ├── datasources/          # Local (SharedPreferences) + Remote (Mock)
+│       │   └── repositories/         # Repository実装
+│       └── presentation/             # プレゼンテーション層
+│           ├── view_models/          # SurveyViewModel
+│           └── views/                # SurveyView (4ページのPageView)
 │
-└── main.dart                # アプリケーションのエントリーポイント
+└── main.dart                         # アプリケーションのエントリーポイント
 ```
 
 ---
@@ -159,15 +159,35 @@ lib/
 
 ### **共通機能の切り出し方針**
 
-- **複数の Feature で使われる機能** → `core/`に配置
-  - 例: 認証（`core/auth/`）、ネットワーク設定、テーマ
-- **Feature 固有の機能** → 各`features/`内に配置
-  - 例: ポケモン図鑑の API、アンケートのロジック
-- **UI の共通コンポーネント** → `core/`配下に widgets ディレクトリを作成
-  - 例: UserSwitcher（複数画面で使用）
+- **技術的インフラ（ビジネスロジックなし）** → `core/` に配置
+  - 例: ネットワーク設定（Dio）、ルーティング（go_router）、テーマ、ユーティリティ、DI 設定
+  - 特徴: Repository/UseCase を持たない、純粋な技術設定
+- **共有ビジネスロジック** → `shared/` に配置
+  - 例: 認証（`shared/auth/`）、決済、通知管理
+  - 特徴: Clean Architecture の 3 層構造（domain/data/presentation）を持つ
+  - UI コンポーネントも含む（例: `shared/auth/presentation/widgets/UserSwitcher`）
+- **Feature 固有の機能** → 各 `features/` 内に配置
+  - 例: ポケモン図鑑（`features/pokemon/`）、アンケート（`features/survey/`）
+  - 特徴: 他の Feature から独立、Clean Architecture の 3 層構造を持つ
 
 ---
 
-### **データの流れ**
+### **Clean Architecture との対応関係**
 
-**`View` → `ViewModel` → `UseCase` → `Repository(I/F)`** `...` **`Repository(Impl)` → `DataSource` → `Backend API`**
+本プロジェクトは、Robert C. Martin (Uncle Bob) の Clean Architecture の原則に従いつつ、Flutter/Dart コミュニティの慣習に合わせた命名を採用しています。
+
+> **⚠️ 重要**: `data` という層は Clean Architecture の原典には存在しません。原典では "Interface Adapters" 層の一部です。Flutter/Dart コミュニティでは、わかりやすさと実用性のため、データ関連の責務を `data` 層としてまとめています。
+
+#### 層の対応表
+
+| 本プロジェクト                     | Clean Architecture (原典)                         | 説明                                                                                                   |
+| ---------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **`domain/entities/`**             | **Entities** (Enterprise Business Rules)          | ビジネスエンティティ。アプリの核となるデータ構造                                                       |
+| **`domain/usecases/`**             | **Use Cases** (Application Business Rules)        | ビジネスロジック。アプリケーション固有のルール                                                         |
+| **`domain/repositories/`**         | **Repository Interface** (Gateway)                | データアクセスの抽象化。インターフェース定義                                                           |
+| **`presentation/views/`**          | **UI** (Frameworks & Drivers)                     | ユーザーインターフェース                                                                               |
+| **`core/`**                        | **Frameworks & Drivers**                          | 技術的基盤（DI、ネットワーク、ルーター等）                                                             |
+| **`data/repositories/`** ⚠️        | **Repository Implementation** (Interface Adapter) | Repository の具体的な実装<br>⚠️ 原典では "Gateway Implementation"                                      |
+| **`data/datasources/`** ⚠️         | **External Interface** (Interface Adapter)        | 外部データソース（API、DB）へのアクセス<br>⚠️ 原典では "Controller/Gateway" の一部                     |
+| **`data/models/`** ⚠️              | **DTOs** (Data Transfer Objects)                  | データ転送用オブジェクト。JSON ↔ オブジェクト変換<br>⚠️ 原典では明示的な層ではない                     |
+| **`presentation/view_models/`** ⚠️ | **Presenters** (Interface Adapter)                | プレゼンテーションロジック。UI と UseCase の橋渡し<br>⚠️ 原典では "Presenter" だが MVVM パターンを採用 |
