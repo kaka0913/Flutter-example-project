@@ -10,7 +10,6 @@
 lib/
 ├── core/                    # 技術的インフラ（ビジネスロジックなし）
 │   ├── di/                  # 依存性注入（DI）の中央管理
-│   │   ├── app_providers.dart   # 全体のDI構成とドキュメント
 │   │   ├── pokemon_di.dart      # Pokemon機能のDI
 │   │   ├── survey_di.dart       # Survey機能のDI
 │   │   └── auth_di.dart         # Auth機能のDI
@@ -19,7 +18,13 @@ lib/
 │   ├── router/              # go_routerの設定
 │   │   └── app_router.dart
 │   ├── theme/               # アプリのテーマ設定
+│   │   ├── app_theme.dart       # Light/Darkテーマ定義
+│   │   ├── app_colors.dart      # カラーパレット
+│   │   └── app_text_styles.dart # テキストスタイル
 │   └── utils/               # 汎用的な便利ツール
+│       ├── string_extensions.dart   # String拡張メソッド
+│       ├── context_extensions.dart  # BuildContext拡張メソッド
+│       └── formatters.dart          # 日付・数値・ポケモンフォーマッター
 │
 ├── shared/                  # 共有ドメイン（ビジネスロジックあり）
 │   └── auth/                # 認証・ユーザー管理（Clean Architecture準拠）
@@ -113,12 +118,17 @@ lib/
   - Clean Architecture の 3 層構造は不要
 - **例**:
   - **`di/`**: 依存性注入（DI）の中央管理
-    - `app_providers.dart`: 全体の DI 構成とドキュメント
     - `pokemon_di.dart`, `survey_di.dart`, `auth_di.dart`: 各機能の DI 設定
   - **`network/`**: Dio インスタンスなどのネットワーク設定
   - **`router/`**: go_router のルーティング設定
   - **`theme/`**: アプリのテーマ設定
+    - `app_theme.dart`: Light/Dark テーマ定義
+    - `app_colors.dart`: カラーパレット（プライマリカラー、ポケモンタイプカラーなど）
+    - `app_text_styles.dart`: テキストスタイル定義
   - **`utils/`**: ヘルパー関数、拡張メソッド
+    - `string_extensions.dart`: String 型の拡張メソッド（capitalize, toPokemonId など）
+    - `context_extensions.dart`: BuildContext 型の拡張メソッド（screenSize, showSnackBar など）
+    - `formatters.dart`: 日付・数値・ポケモンのフォーマッター
   - **`constants/`**: 定数定義
 
 ---
