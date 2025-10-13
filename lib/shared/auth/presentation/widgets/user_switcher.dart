@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:work/shared/auth/presentation/providers/auth_providers.dart';
+import 'package:work/core/di/auth_di.dart';
 
 /// ユーザー切り替えウィジェット
 class UserSwitcher extends ConsumerWidget {
@@ -79,7 +79,7 @@ class UserSwitcher extends ConsumerWidget {
         }).toList();
       },
       onSelected: (userId) {
-        ref.read(currentUserProvider.notifier).switchUser(userId as String);
+        ref.read(currentUserProvider.notifier).switchUser(userId);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('${availableUsers.firstWhere((u) => u.id == userId).name}に切り替えました'),

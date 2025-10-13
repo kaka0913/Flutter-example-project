@@ -1,8 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:work/features/survey/domain/entities/survey_answer.dart';
-import 'package:work/features/survey/domain/usecases/submit_survey_usecase.dart';
-import 'package:work/features/survey/presentation/providers/survey_providers.dart';
 
 part 'survey_view_model.g.dart';
 
@@ -77,11 +74,8 @@ class SurveyState {
 /// アンケートViewModel（4ページを1つで管理）
 @riverpod
 class SurveyViewModel extends _$SurveyViewModel {
-  late final SubmitSurveyUseCase _submitSurveyUseCase;
-
   @override
   SurveyState build() {
-    _submitSurveyUseCase = ref.watch(submitSurveyUseCaseProvider);
     return const SurveyState();
   }
 

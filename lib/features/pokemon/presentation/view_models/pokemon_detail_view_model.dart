@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:work/features/pokemon/domain/entities/pokemon.dart';
 import 'package:work/features/pokemon/domain/usecases/get_pokemon_detail_usecase.dart';
-import 'package:work/features/pokemon/presentation/providers/pokemon_providers.dart';
+import 'package:work/core/di/pokemon_di.dart';
 
 part 'pokemon_detail_view_model.g.dart';
 

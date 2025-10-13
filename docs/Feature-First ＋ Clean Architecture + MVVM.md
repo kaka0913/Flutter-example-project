@@ -9,6 +9,11 @@
 ```
 lib/
 ├── core/                    # 技術的インフラ（ビジネスロジックなし）
+│   ├── di/                  # 依存性注入（DI）の中央管理
+│   │   ├── app_providers.dart   # 全体のDI構成とドキュメント
+│   │   ├── pokemon_di.dart      # Pokemon機能のDI
+│   │   ├── survey_di.dart       # Survey機能のDI
+│   │   └── auth_di.dart         # Auth機能のDI
 │   ├── network/             # Dioインスタンスなどのネットワーク設定
 │   │   └── dio_client.dart
 │   ├── router/              # go_routerの設定
@@ -26,7 +31,6 @@ lib/
 │       │   ├── datasources/ # UserLocalDataSource (モック)
 │       │   └── repositories/# UserRepositoryImpl
 │       └── presentation/    # プレゼンテーション層
-│           ├── providers/   # Riverpodプロバイダー（DI）
 │           └── widgets/     # UserSwitcher
 │
 ├── features/                # 機能層 (Feature-First)
@@ -40,7 +44,6 @@ lib/
 │   │   │   ├── datasources/ # PokemonApiClient (Retrofit)
 │   │   │   └── repositories/# Repository実装
 │   │   └── presentation/    # プレゼンテーション層
-│   │       ├── providers/   # Riverpodプロバイダー（DI）
 │   │       ├── view_models/ # PokemonListViewModel, PokemonDetailViewModel
 │   │       └── views/       # PokemonListView, PokemonDetailView
 │   │
@@ -54,7 +57,6 @@ lib/
 │       │   ├── datasources/ # Local (SharedPreferences) + Remote (Mock)
 │       │   └── repositories/# Repository実装
 │       └── presentation/    # プレゼンテーション層
-│           ├── providers/   # Riverpodプロバイダー（DI）
 │           ├── view_models/ # SurveyViewModel
 │           └── views/       # SurveyView (4ページのPageView)
 │
@@ -110,6 +112,9 @@ lib/
   - 技術的な設定・ユーティリティのみ
   - Clean Architecture の 3 層構造は不要
 - **例**:
+  - **`di/`**: 依存性注入（DI）の中央管理
+    - `app_providers.dart`: 全体の DI 構成とドキュメント
+    - `pokemon_di.dart`, `survey_di.dart`, `auth_di.dart`: 各機能の DI 設定
   - **`network/`**: Dio インスタンスなどのネットワーク設定
   - **`router/`**: go_router のルーティング設定
   - **`theme/`**: アプリのテーマ設定
@@ -122,6 +127,7 @@ lib/
 
 #### `core/` に配置すべきもの（技術的インフラ）
 
+- ✅ 依存性注入（DI）の設定
 - ✅ ネットワーク設定（Dio）
 - ✅ ルーティング設定（go_router）
 - ✅ テーマ設定
