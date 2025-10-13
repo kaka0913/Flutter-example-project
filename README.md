@@ -1,6 +1,8 @@
-# ポケモン図鑑アプリ
+# Flutter プロジェクトサンプルアプリ
 
-Feature-First + Clean Architecture + MVVM パターンで実装された Flutter アプリケーションです。
+Feature-First + Clean Architecture + MVVM パターンで実装された Flutter アプリケーションです。  
+簡易的な API Client を実装するために PokéAPI を使ってデータを表示できるようにしています。  
+gitignoreで.g.dartなどの生成ファイルは追跡対象から外してあるので、各自の手元で生成してください。
 
 ## 📋 実装済み機能
 
@@ -11,7 +13,7 @@ Feature-First + Clean Architecture + MVVM パターンで実装された Flutter
 - PokéAPI との連携（Retrofit + Dio）
 - Clean Architecture（Domain / Data / Presentation 層分離）
 
-### 2. ポケモン診断（アンケート機能）(`features/survey/`)
+### 2. アンケート機能(`features/survey/`)
 
 - 4 ページのアンケートフロー（PageView）
 - 単一 ViewModel で複数ページを管理
@@ -58,8 +60,3 @@ fvm flutter run -d chrome
   - 命名規則
   - コーディング規約
   - 禁止事項とチェックリスト
-
-### その他
-
-- [パッケージ構成](./docs/パッケージ.md)
-  - 使用パッケージの詳細
