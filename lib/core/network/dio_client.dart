@@ -1,5 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'dio_client.g.dart';
+
+/// Dioプロバイダー
+@riverpod
+Dio dio(Ref ref) {
+  return createDio();
+}
 
 /// Dioインスタンスを作成
 Dio createDio() {

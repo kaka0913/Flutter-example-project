@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:work/features/survey/data/models/survey_answer_model.dart';
+import 'package:work/features/survey/dto/survey_answer_model.dart';
 
 /// ローカルデータソース（SharedPreferences使用）
 class SurveyLocalDataSource {

@@ -1,4 +1,4 @@
-import '../../../domain/entities/user.dart';
+import '../../../entities/user.dart';
 
 /// ユーザーローカルデータソース
 class UserLocalDataSource {

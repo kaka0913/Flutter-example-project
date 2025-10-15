@@ -1,6 +1,6 @@
 import 'dart:math';
-import 'package:work/features/survey/data/models/recommendation_response.dart';
-import 'package:work/features/survey/data/models/survey_answer_model.dart';
+import 'package:work/features/survey/dto/recommendation_response.dart';
+import 'package:work/features/survey/dto/survey_answer_model.dart';
 
 /// リモートデータソース（モック実装）
 /// 実際のプロジェクトではRetrofitで実装

@@ -1,11 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../shared/auth/data/datasources/local/user_local_datasource.dart';
-import '../../shared/auth/data/repositories/user_repository_impl.dart';
-import '../../shared/auth/domain/repositories/user_repository.dart';
-import '../../shared/auth/domain/usecases/get_available_users_usecase.dart';
-import '../../shared/auth/domain/usecases/get_current_user_usecase.dart';
-import '../../shared/auth/domain/usecases/switch_user_usecase.dart';
-import '../../shared/auth/domain/entities/user.dart';
+import '../../shared/auth/user_repository.dart';
+import '../../shared/auth/entities/user.dart';
 
 part 'auth_di.g.dart';
 
@@ -14,7 +10,7 @@ part 'auth_di.g.dart';
 /// ========================================
 /// 
 /// 依存関係:
-/// UserLocalDataSource → UserRepository → UseCases
+/// UserLocalDataSource → UserRepository
 
 // DataSource層
 @riverpod
@@ -26,26 +22,7 @@ UserLocalDataSource userLocalDataSource(Ref ref) {
 @riverpod
 UserRepository userRepository(Ref ref) {
   final dataSource = ref.watch(userLocalDataSourceProvider);
-  return UserRepositoryImpl(dataSource);
-}
-
-// UseCase層
-@riverpod
-GetCurrentUserUseCase getCurrentUserUseCase(Ref ref) {
-  final repository = ref.watch(userRepositoryProvider);
-  return GetCurrentUserUseCase(repository);
-}
-
-@riverpod
-GetAvailableUsersUseCase getAvailableUsersUseCase(Ref ref) {
-  final repository = ref.watch(userRepositoryProvider);
-  return GetAvailableUsersUseCase(repository);
-}
-
-@riverpod
-SwitchUserUseCase switchUserUseCase(Ref ref) {
-  final repository = ref.watch(userRepositoryProvider);
-  return SwitchUserUseCase(repository);
+  return UserRepository(dataSource);
 }
 
 // Presentation層プロバイダー
@@ -54,14 +31,14 @@ SwitchUserUseCase switchUserUseCase(Ref ref) {
 class CurrentUser extends _$CurrentUser {
   @override
   User? build() {
-    final useCase = ref.watch(getCurrentUserUseCaseProvider);
-    return useCase();
+    final repository = ref.watch(userRepositoryProvider);
+    return repository.getCurrentUser();
   }
 
   /// ユーザーを切り替え
   Future<void> switchUser(String userId) async {
-    final useCase = ref.read(switchUserUseCaseProvider);
-    await useCase(userId);
+    final repository = ref.read(userRepositoryProvider);
+    await repository.switchUser(userId);
     // 状態を更新
     ref.invalidateSelf();
   }
@@ -70,6 +47,6 @@ class CurrentUser extends _$CurrentUser {
 /// 利用可能なユーザー一覧のプロバイダー
 @riverpod
 List<User> availableUsers(Ref ref) {
-  final useCase = ref.watch(getAvailableUsersUseCaseProvider);
-  return useCase();
+  final repository = ref.watch(userRepositoryProvider);
+  return repository.getAvailableUsers();
 }
