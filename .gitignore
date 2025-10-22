@@ -91,3 +91,4 @@ app.*.map.json
 .fvm/
 .serena/
 .vscode/
+actions-runner/
