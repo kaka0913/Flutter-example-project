@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      # FVMを使用してFlutterを実行
+      # FVMを使用してFlutterを実行 
       - name: Setup Flutter with FVM
         run: |
           fvm install 3.32.8
@@ -26,6 +26,9 @@ jobs:
       
       - name: Get dependencies
         run: fvm flutter pub get
+      
+      - name: Generate code
+        run: fvm flutter pub run build_runner build --delete-conflicting-outputs
       
       - name: Analyze
         run: fvm flutter analyze
