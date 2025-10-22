@@ -33,3 +33,9 @@ jobs:
       
       - name: Analyze
         run: flutter analyze
+
+      - name: Build Android (Debug APK)
+        run: flutter build apk --debug
+
+      - name: Build iOS (No CodeSign)
+        run: flutter build ios --no-codesign
