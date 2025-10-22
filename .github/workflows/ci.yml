@@ -65,4 +65,4 @@ jobs:
         run: flutter pub run build_runner build --delete-conflicting-outputs
       
       - name: Build iOS (Simulator)
-        run: flutter build ios --simulator --release
+        run: flutter build ios --simulator
