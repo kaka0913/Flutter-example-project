@@ -1,4 +1,4 @@
-# ポケモン図鑑アプリ
+# Flutter プロジェクトサンプルアプリ
 
 **シンプルな Feature-First + Repository** アーキテクチャで実装された Flutter アプリケーションです。
 
@@ -14,7 +14,7 @@ UseCaseを省略し、ViewModelがビジネスロジックを担当する実用�
 - Repository パターン（DTO → Entity 変換）
 - 層構成: DataSource → Repository → ViewModel → View
 
-### 2. ポケモン診断（アンケート機能）(`features/survey/`)
+### 2. アンケート機能(`features/survey/`)
 
 - 4 ページのアンケートフロー（PageView）
 - 単一 ViewModel で複数ページを管理
