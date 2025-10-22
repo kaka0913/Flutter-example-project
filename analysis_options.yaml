@@ -15,9 +15,6 @@ analyzer:
     - "**/*.gr.dart"
     - "**/*.config.dart"
     - "**/*.mocks.dart"
-    - "actions-runner/**"
-    - ".fvm/**"
-    - ".serena/**"
 
 linter:
   # The lint rules applied to this project can be customized in the
