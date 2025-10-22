@@ -18,6 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -33,9 +39,12 @@ jobs:
       
       - name: Analyze
         run: flutter analyze
-
-      - name: Build Android (Debug APK)
-        run: flutter build apk --debug
-
-      - name: Build iOS (No CodeSign)
-        run: flutter build ios --no-codesign
+      
+      - name: Run tests
+        run: flutter test
+      
+      - name: Build Android APK
+        run: flutter build apk --release
+        env:
+          JAVA_OPTS: "-Xmx4096m"
+          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -Dorg.gradle.daemon=false"
