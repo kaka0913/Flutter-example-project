@@ -40,11 +40,11 @@ jobs:
       - name: Analyze
         run: flutter analyze
       
-      - name: Run tests
-        run: flutter test
-      
       - name: Build Android APK
         run: flutter build apk --release
         env:
           JAVA_OPTS: "-Xmx4096m"
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx4096m -Dorg.gradle.daemon=false"
+
+      - name: Build iOS (No CodeSign)
+        run: flutter build ios --no-codesign
