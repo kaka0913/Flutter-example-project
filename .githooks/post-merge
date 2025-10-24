@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# post-merge フック
+# git pull (fast-forward含む) や git merge が成功した後に実行される
+
+echo "Post-merge hook: Running build_runner..."
+
+# build_runnerを実行するコマンドを定義
+RUN_BUILD_RUNNER="flutter pub run build_runner build --delete-conflicting-outputs"
+
+# fvm コマンドが存在するかどうかで実行コマンドを切り替える
+if command -v fvm >/dev/null 2>&1; then
+    echo "FVM detected. Using 'fvm flutter...'"
+    fvm $RUN_BUILD_RUNNER
+else
+    echo "FVM not detected. Using 'flutter...'"
+    $RUN_BUILD_RUNNER
+fi
+
+echo "Post-merge hook: build_runner finished."
